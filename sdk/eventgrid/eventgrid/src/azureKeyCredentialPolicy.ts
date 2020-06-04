@@ -12,6 +12,15 @@ import {
 } from "@azure/core-http";
 
 const API_KEY_HEADER_NAME = "aeg-sas-key";
+const SAS_TOKEN_HEAER_NAME = "aeg-sas-token";
+
+export class EventGridSharedAccessTokenCredential implements KeyCredential {
+  key: string
+
+  constructor(key: string) {
+    this.key = key
+  }
+}
 
 /**
  * Create an HTTP pipeline policy to authenticate a request
@@ -33,7 +42,8 @@ export function createEventGridAzureKeyCredentialPolicy(
  */
 class EventGridAzureKeyCredentialPolicy extends BaseRequestPolicy {
   private credential: KeyCredential;
-
+  private headerName: string;
+  
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptionsLike,
@@ -41,6 +51,7 @@ class EventGridAzureKeyCredentialPolicy extends BaseRequestPolicy {
   ) {
     super(nextPolicy, options);
     this.credential = credential;
+    this.headerName = credential instanceof EventGridSharedAccessTokenCredential ? SAS_TOKEN_HEAER_NAME : API_KEY_HEADER_NAME;
   }
 
   public async sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse> {
@@ -48,7 +59,7 @@ class EventGridAzureKeyCredentialPolicy extends BaseRequestPolicy {
       throw new Error("webResource cannot be null or undefined");
     }
 
-    webResource.headers.set(API_KEY_HEADER_NAME, this.credential.key);
+    webResource.headers.set(this.headerName, this.credential.key);
     return this._nextPolicy.sendRequest(webResource);
   }
 }

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import {
-  EventGridClient, AzureKeyCredential, EventGridCloudEventClient
+  EventGridClient, AzureKeyCredential, EventGridCloudEventClient, EventGridSharedAccessTokenCredential
 } from "../src/index";
 
 describe("EventGridClient", function() {
@@ -10,7 +10,7 @@ describe("EventGridClient", function() {
     throw new Error("AZURE_EVENT_GRID_TOPIC_KEY and AZURE_EVENT_GRID_TOPIC_ENDPOINT must be set before running this test.")
   }
 
-  let client: EventGridClient = new EventGridClient(process.env["AZURE_EVENT_GRID_TOPIC_ENDPOINT"], new AzureKeyCredential(process.env["AZURE_EVENT_GRID_TOPIC_KEY"]));
+  let client: EventGridClient = new EventGridClient(process.env["AZURE_EVENT_GRID_TOPIC_ENDPOINT"], new EventGridSharedAccessTokenCredential(process.env["AZURE_EVENT_GRID_TOPIC_KEY"]));
 
   this.timeout(10000);
 
