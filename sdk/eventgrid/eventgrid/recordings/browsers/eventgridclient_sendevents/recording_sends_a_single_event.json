@@ -1,0 +1,28 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/",
+   "query": {
+    "api-version": "2018-01-01"
+   },
+   "requestBody": "[{\"id\":\"adb7c405-3352-4ee9-a75f-15e014514040\",\"subject\":\"Single\",\"data\":{\"hello\":\"world\"},\"eventType\":\"MatEll.Events.Dummy\",\"eventTime\":\"2020-06-05T01:45:18.153Z\",\"dataVersion\":\"1.0\"}]",
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "api-supported-versions": "2018-01-01",
+    "content-length": "0",
+    "date": "Fri, 05 Jun 2020 01:45:20 GMT",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "status": "200",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "cebf7dbc-3691-470b-b83d-c45a98302583"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "c083c90efd5b500351bb8fedd6ee6ae7"
+}

@@ -1,0 +1,28 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/",
+   "query": {
+    "api-version": "2018-01-01"
+   },
+   "requestBody": "[{\"id\":\"fd49b9d9-b6a5-44c4-bbfe-d7d49a874ed7\",\"subject\":\"Multiple 1\",\"data\":{\"hello\":\"world\"},\"eventType\":\"MatEll.Events.Dummy\",\"eventTime\":\"2020-06-05T01:45:18.322Z\",\"dataVersion\":\"1.0\"},{\"id\":\"be5ae662-7b30-460f-a232-4115ea90898f\",\"subject\":\"Multiple 2\",\"data\":{\"hello\":\"world\"},\"eventType\":\"MatEll.Events.Dummy\",\"eventTime\":\"2020-06-05T01:45:18.322Z\",\"dataVersion\":\"1.0\"}]",
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "api-supported-versions": "2018-01-01",
+    "content-length": "0",
+    "date": "Fri, 05 Jun 2020 01:45:20 GMT",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "status": "200",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "2c6ebc14-592d-4b4b-a0f8-b534b669d92f"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "cbcfcfdf1ea8fe8ba67728723176b865"
+}

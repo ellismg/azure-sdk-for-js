@@ -1,22 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { assert } from "chai";
+
+import { Recorder } from "@azure/test-utils-recorder";
+
+import { createRecordedClient, testEnv } from "./utils/recordedClient";
 import {
-  EventGridClient, AzureKeyCredential, EventGridCloudEventClient, EventGridSharedAccessTokenCredential
+  EventGridClient,
+  AzureKeyCredential,
 } from "../src/index";
 
 describe("EventGridClient", function() {
-  if (!process.env["AZURE_EVENT_GRID_TOPIC_KEY"] || !process.env["AZURE_EVENT_GRID_TOPIC_ENDPOINT"]) {
-    throw new Error("AZURE_EVENT_GRID_TOPIC_KEY and AZURE_EVENT_GRID_TOPIC_ENDPOINT must be set before running this test.")
-  }
 
-  let client: EventGridClient = new EventGridClient(process.env["AZURE_EVENT_GRID_TOPIC_ENDPOINT"], new EventGridSharedAccessTokenCredential(process.env["AZURE_EVENT_GRID_TOPIC_KEY"]));
+  let recorder: Recorder;
+  let client: EventGridClient;
 
   this.timeout(10000);
 
+  beforeEach(function() {
+    ({ client, recorder } = createRecordedClient(this, new AzureKeyCredential(testEnv.EVENT_GRID_API_KEY)));
+  });
+
+  afterEach(() => {
+    recorder.stop();
+  });
+
   describe("#sendEvents", () => {
     it("sends a single event", async () => {
-      return await client.sendEvents({
+      const res =  await client.sendEvents({
           dataVersion: "1.0",
           data: {
               hello: "world",
@@ -24,10 +36,12 @@ describe("EventGridClient", function() {
           type: "MatEll.Events.Dummy",
           subject: "Single",          
       });
+
+      assert.equal(res._response.status, 200);
     });
 
     it("sends multiple event", async () => {
-        return await client.sendEvents([{
+      const res =  await client.sendEvents([{
             dataVersion: "1.0",
             data: {
                 hello: "world",
@@ -43,50 +57,8 @@ describe("EventGridClient", function() {
             type: "MatEll.Events.Dummy",
             subject: "Multiple 2",                 
         }]);
-      });    
-  });
-});
-
-describe("CloudEventClient", function() {
-  if (!process.env["AZURE_EVENT_GRID_DOMAIN_KEY"] || !process.env["AZURE_EVENT_GRID_DOMAIN_ENDPOINT"]) {
-    throw new Error("AZURE_EVENT_GRID_DOMAIN_KEY and AZURE_EVENT_GRID_DOMAIN_ENDPOINT must be set before running this test.")
-  }
-
-  let client: EventGridCloudEventClient = new EventGridCloudEventClient(process.env["AZURE_EVENT_GRID_DOMAIN_ENDPOINT"], new AzureKeyCredential(process.env["AZURE_EVENT_GRID_DOMAIN_KEY"]));
-
-  this.timeout(10000);
-
-  describe("#sendEvents", () => {
-    it("sends a single event", async () => {
-      return await client.sendEvents({
-          dataContentType: "application/json",
-          source:"/earth/unitedstates/washington/redmond/building18",
-          type: "matell.sample.handcraffted",
-          data: {
-            hello: "world"
-          }                    
-      });
+        
+      assert.equal(res._response.status, 200);
     });
-
-    it("sends multiple event", async () => {
-        return await client.sendEvents([{
-          dataContentType: "application/json",
-          source:"/earth/unitedstates/washington/redmond/building18",
-          type: "matell.sample.handcraffted",
-          subject: "Mutlipel 1",
-          data: {
-            hello: "world"
-          }            
-        },
-        {
-          dataContentType: "application/json",
-          source:"/earth/unitedstates/washington/redmond/building18",
-          type: "matell.sample.handcraffted",
-          subject: "Multiple 2",
-          data: {
-            hello: "world"
-          }              
-        }]);
-      });    
   });
 });

@@ -34,28 +34,9 @@ export class EventGridClient {
     constructor(endpointUrl: string, credential: KeyCredential, options?: PipelineOptions);
     // (undocumented)
     readonly endpointUrl: string;
-    // (undocumented)
+    static generateSharedAccessSignature(endpointUrl: string, expiresOnUtc: Date, key: string, apiVersion?: string): string;
+    sendCloudEvents(message: CloudEventMessage | CloudEventMessage[]): Promise<RestResponse>;
     sendEvents(message: EventGridMessage | EventGridMessage[]): Promise<RestResponse>;
-}
-
-// @public (undocumented)
-export class EventGridCloudEventClient {
-    constructor(topicUrl: string, credential: KeyCredential, options?: PipelineOptions);
-    // (undocumented)
-    sendEvents(message: CloudEventMessage | CloudEventMessage[]): Promise<RestResponse>;
-    // (undocumented)
-    readonly topicUrl: string;
-}
-
-// @public (undocumented)
-export class EventGridDomainClient {
-    constructor(endpointUrl: string, topicName: string, credential: KeyCredential, options?: PipelineOptions);
-    // (undocumented)
-    readonly endpointUrl: string;
-    // (undocumented)
-    sendEvents(message: EventGridMessage | EventGridMessage[]): Promise<RestResponse>;
-    // (undocumented)
-    readonly topicName: string;
 }
 
 // @public (undocumented)
@@ -71,7 +52,14 @@ export interface EventGridMessage {
     // (undocumented)
     time?: Date;
     // (undocumented)
+    topic?: string;
+    // (undocumented)
     type: string;
+}
+
+// @public
+export class SharedAccessSignatureCredential extends AzureKeyCredential {
+    constructor(signature: string);
 }
 
 

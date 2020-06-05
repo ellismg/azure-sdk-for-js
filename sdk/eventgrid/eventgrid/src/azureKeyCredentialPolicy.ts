@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KeyCredential } from "@azure/core-auth";
+import { KeyCredential, AzureKeyCredential } from "@azure/core-auth";
 import {
   RequestPolicyFactory,
   RequestPolicy,
@@ -14,11 +14,13 @@ import {
 const API_KEY_HEADER_NAME = "aeg-sas-key";
 const SAS_TOKEN_HEAER_NAME = "aeg-sas-token";
 
-export class EventGridSharedAccessTokenCredential implements KeyCredential {
-  key: string
-
-  constructor(key: string) {
-    this.key = key
+/**
+ * A credential type which allows using a "shared access signature" to authenticate with EventGrid
+ * when sending events.
+ */
+export class SharedAccessSignatureCredential extends AzureKeyCredential {
+  constructor(signature: string) {
+    super(signature);
   }
 }
 
@@ -51,7 +53,7 @@ class EventGridAzureKeyCredentialPolicy extends BaseRequestPolicy {
   ) {
     super(nextPolicy, options);
     this.credential = credential;
-    this.headerName = credential instanceof EventGridSharedAccessTokenCredential ? SAS_TOKEN_HEAER_NAME : API_KEY_HEADER_NAME;
+    this.headerName = credential instanceof SharedAccessSignatureCredential ? SAS_TOKEN_HEAER_NAME : API_KEY_HEADER_NAME;
   }
 
   public async sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse> {

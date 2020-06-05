@@ -1,5 +1,5 @@
 export { AzureKeyCredential } from "@azure/core-auth";
 
-export { EventGridMessage, CloudEventMessage, EventGridClient, EventGridDomainClient, EventGridCloudEventClient } from "./eventGridClient";
+export { EventGridMessage, CloudEventMessage, EventGridClient } from "./eventGridClient";
 
-export { EventGridSharedAccessTokenCredential } from "./azureKeyCredentialPolicy";
+export { SharedAccessSignatureCredential } from "./azureKeyCredentialPolicy";
