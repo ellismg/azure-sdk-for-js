@@ -1,11 +1,11 @@
 let nock = require('nock');
 
-module.exports.hash = "99f85cf3e2bb5efbeb840ea9d688e6b9";
+module.exports.hash = "07e60ee7997d28baea42088d59c3aff7";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/api/events', [{"id":"f4584567-751c-485d-8c52-d86be96850ee","subject":"Multiple 1","data":{"hello":"world"},"eventType":"MatEll.Events.Dummy","eventTime":"2020-06-05T01:45:13.001Z","dataVersion":"1.0"},{"id":"0049b367-36a7-45b9-9e49-9263c0f40e21","subject":"Multiple 2","data":{"hello":"world"},"eventType":"MatEll.Events.Dummy","eventTime":"2020-06-05T01:45:13.001Z","dataVersion":"1.0"}])
+  .post('/api/events', [{"id":"31e07698-e7bb-4c5e-a5bf-65b1d3d1406b","subject":"Multiple 1","data":{"hello":"world"},"eventType":"MatEll.Events.Dummy","eventTime":"2020-06-05T23:16:09.432Z","dataVersion":"1.0"},{"id":"447bfffb-d7b5-4c19-81b1-2c96ba1ed57e","subject":"Multiple 2","data":{"hello":"world"},"eventType":"MatEll.Events.Dummy","eventTime":"2020-06-05T23:16:09.432Z","dataVersion":"1.0"}])
   .query(true)
   .reply(200, "", [
   'Content-Length',
@@ -17,7 +17,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'api-supported-versions',
   '2018-01-01',
   'x-ms-request-id',
-  'b38be1ac-56ce-46af-8aa0-59ce5f671521',
+  '81041263-7bcf-4c05-9c99-df8f553b8fd2',
   'Date',
-  'Fri, 05 Jun 2020 01:45:14 GMT'
+  'Fri, 05 Jun 2020 23:16:09 GMT'
 ]);

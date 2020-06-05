@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from "uuid";
 import { createEventGridAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import { DEFAULT_SERVICE_API_VERSION, SDK_VERSION } from "./constants";
 import { GeneratedClient } from './generated/generatedClient';
+import { dateToServiceTimeString } from "./util"
 
 export interface EventGridMessage {
   type: string
@@ -45,12 +46,13 @@ export class EventGridClient {
         if (!pipelineOptions.userAgentOptions) {
           pipelineOptions.userAgentOptions = {};
         }
+
         if (pipelineOptions.userAgentOptions.userAgentPrefix) {
           pipelineOptions.userAgentOptions.userAgentPrefix = `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`;
         } else {
           pipelineOptions.userAgentOptions.userAgentPrefix = libInfo;
         }
-      
+
         const authPolicy = createEventGridAzureKeyCredentialPolicy(credential);
         const pipeline = createPipelineFromOptions(options, authPolicy);
      
@@ -116,11 +118,7 @@ export class EventGridClient {
      * @param apiVersion The version of the EventGrid API.
      */
     static generateSharedAccessSignature(endpointUrl: string, expiresOnUtc: Date, key: string, apiVersion = DEFAULT_SERVICE_API_VERSION) {
-      const expiresOnUtcDateString = `${expiresOnUtc.getUTCMonth()}/${expiresOnUtc.getUTCDate()}/${expiresOnUtc.getUTCFullYear()}`;
-      const expiresOnHour = expiresOnUtc.getUTCHours() == 0 ? 12 : (expiresOnUtc.getUTCHours() % 12);
-      const expiresOnUtcTimeString = `${expiresOnHour}:${expiresOnUtc.getUTCMinutes().toString().padStart(2, "0")}:${expiresOnUtc.getUTCSeconds().toString().padStart(2, "0")} ${expiresOnUtc.getUTCHours() >= 13 ? "PM" : "AM"}`;
-
-      const expiresOnString = `${expiresOnUtcDateString} ${expiresOnUtcTimeString}`;
+      const expiresOnString = dateToServiceTimeString(expiresOnUtc);
       const unsignedSas = `r=${encodeURIComponent(`${endpointUrl}?apiVersion=${apiVersion}`)}&e=${encodeURIComponent(expiresOnString)}`;
       const digest = createHmac("sha256", Buffer.from(key, 'base64')).update(unsignedSas).digest().toString('base64');
 
