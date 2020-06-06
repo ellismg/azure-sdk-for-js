@@ -36,6 +36,11 @@ export class EventGridClient {
     readonly endpointUrl: string;
     static generateSharedAccessSignature(endpointUrl: string, expiresOnUtc: Date, key: string, apiVersion?: string): string;
     sendCloudEvents(message: CloudEventMessage | CloudEventMessage[]): Promise<RestResponse>;
+    sendCustomSchemaEvents(message: {
+        [key: string]: any;
+    } | {
+        [key: string]: any;
+    }[]): Promise<RestResponse>;
     sendEvents(message: EventGridMessage | EventGridMessage[]): Promise<RestResponse>;
 }
 

@@ -85,7 +85,7 @@ export class EventGridClient {
     }
 
     /**
-     * Publishes events in the Cloud Events 1.0 scheama. The topic must be configured to expect events in the Cloud Events 1.0 schema format.
+     * Publishes events in the Cloud Events 1.0 schema. The topic must be configured to expect events in the Cloud Events 1.0 schema format.
      * 
      * @param message One or more events to publish
      */    
@@ -107,6 +107,17 @@ export class EventGridClient {
       });
   
       return this.client.publishCloudEventEvents(this.endpointUrl, events);    
+    }
+
+    /**
+     * Publishes events written using a custom schema. The topic must be configured to expect events in the Custom Schema format.
+     * 
+     * @param message One or more events to publish
+     */
+    sendCustomSchemaEvents(message: {[key: string]: any} | {[key: string]: any}[]): Promise<RestResponse> {
+      const events = !Array.isArray(message) ? [message] : message;
+
+      return this.client.publishCustomEventEvents(this.endpointUrl, events);
     }
 
     /**

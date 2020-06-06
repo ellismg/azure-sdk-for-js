@@ -1,11 +1,11 @@
 let nock = require('nock');
 
-module.exports.hash = "338378c79f463c83e19b8d9c5f3e1a07";
+module.exports.hash = "c36eef7017932324d6ef9f7ddf4e720f";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
-nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/api/events', [{"id":"7a59421f-f2eb-490c-9100-f6b0d28a5812","subject":"Single","data":{"hello":"world"},"eventType":"MatEll.Events.Dummy","eventTime":"2020-06-06T00:43:48.030Z","dataVersion":"1.0"}])
+nock('https://matell-eg-custom-topic.westus2-1.eventgrid.azure.net:443', {"encodedQueryParams":true})
+  .post('/api/events', [{"ver":"1.0","typ":"MatEll.Events.Dummy","sub":"Single","payload":{"test":"data"}}])
   .query(true)
   .reply(200, "", [
   'Content-Length',
@@ -17,7 +17,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'api-supported-versions',
   '2018-01-01',
   'x-ms-request-id',
-  '7a7b8161-aabd-4b73-aff2-8e6b5f5ca111',
+  '9486e5b2-01ab-48df-a9de-b7b128331071',
   'Date',
   'Sat, 06 Jun 2020 00:43:48 GMT'
 ]);

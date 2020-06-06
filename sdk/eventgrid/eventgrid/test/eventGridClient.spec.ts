@@ -18,15 +18,16 @@ describe("EventGridClient", function() {
 
   this.timeout(10000);
 
-  beforeEach(function() {
-    ({ client, recorder } = createRecordedClient(this, new AzureKeyCredential(testEnv.EVENT_GRID_API_KEY)));
-  });
-
-  afterEach(() => {
-    recorder.stop();
-  });
-
   describe("#sendEvents", () => {
+
+    beforeEach(function() {
+      ({ client, recorder } = createRecordedClient(this, testEnv.EVENT_GRID_EVENT_GRID_SCHEMA_ENDPOINT, new AzureKeyCredential(testEnv.EVENT_GRID_EVENT_GRID_SCHEMA_API_KEY)));
+    });
+  
+    afterEach(() => {
+      recorder.stop();
+    });
+ 
     it("sends a single event", async () => {
       const res =  await client.sendEvents({
         dataVersion: "1.0",
@@ -57,10 +58,104 @@ describe("EventGridClient", function() {
           },
           type: "MatEll.Events.Dummy",
           subject: "Multiple 2",                 
-        }]);
+        }
+      ]);
         
       assert.equal(res._response.status, 200);
     });
+  });
+
+  describe("#sendCustomSchemaEvents", () => {
+
+    beforeEach(function() {
+      ({ client, recorder } = createRecordedClient(this, testEnv.EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT, new AzureKeyCredential(testEnv.EVENT_GRID_CUSTOM_SCHEMA_API_KEY)));
+    });
+  
+    afterEach(() => {
+      recorder.stop();
+    });
+ 
+    it("sends a single event", async () => {
+      const res =  await client.sendCustomSchemaEvents({
+        ver: "1.0",
+        typ: "MatEll.Events.Dummy",
+        sub: "Single",
+        payload: {
+          test: "data",
+        }
+      });
+
+      assert.equal(res._response.status, 200);
+    });
+
+    it("sends multiple event", async () => {
+      const res =  await client.sendCustomSchemaEvents([
+        {
+          ver: "1.0",
+          typ: "MatEll.Events.Dummy",
+          sub: "Multiple 1",
+          payload: {
+            test: "data",
+          }       
+        },
+        {
+          ver: "1.0",
+          typ: "MatEll.Events.Dummy",
+          sub: "Multiple 2",
+          payload: {
+            test: "data",
+          }              
+        }
+      ]);
+        
+      assert.equal(res._response.status, 200);
+    });
+  });
+
+  describe("#sendCloudEventSchemaEvents", () => {
+
+    beforeEach(function() {
+      ({ client, recorder } = createRecordedClient(this, testEnv.EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT, new AzureKeyCredential(testEnv.EVENT_GRID_CLOUD_EVENT_SCHEMA_API_KEY)));
+    });
+  
+    afterEach(() => {
+      recorder.stop();
+    });
+  
+    it("sends a single event", async () => {
+      const res =  await client.sendCloudEvents({
+        type: "matell.sample.handcraffted",
+        source: "/earth/unitedstates/washington/kirkland/finnhill",
+        data: {
+          hello: "world"
+        }
+      });
+
+      assert.equal(res._response.status, 200);
+    });
+
+    it("sends multiple event", async () => {
+      const res =  await client.sendCloudEvents([
+        {
+          type: "matell.sample.handcraffted",
+          source: "/earth/unitedstates/washington/kirkland/finnhill",
+          subject: "Multiple 1",
+          data: {
+            hello: "world"
+          }
+        },
+        {
+          type: "matell.sample.handcraffted",
+          source: "/earth/unitedstates/washington/kirkland/finnhill",
+          subject: "Multiple 2",
+          data: {
+            hello: "world"
+          }
+        }
+      ]);          
+      
+      assert.equal(res._response.status, 200);
+    });  
   });
 
   // TODO(matell): generateSharedAccessSigniture used `createHmac` which is specific to node. Is this the correct way to author the tests

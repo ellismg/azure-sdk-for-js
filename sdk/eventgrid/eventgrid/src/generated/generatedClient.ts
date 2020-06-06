@@ -87,6 +87,38 @@ class GeneratedClient extends GeneratedClientContext {
       publishCloudEventEventsOperationSpec,
       callback);
   }
+
+  /**
+   * Publishes a batch of events to an Azure Event Grid topic.
+   * @param topicHostname The host name of the topic, e.g. topic1.westus2-1.eventgrid.azure.net
+   * @param events An array of events to be published to Event Grid.
+   * @param [options] The optional parameters
+   * @returns Promise<coreHttp.RestResponse>
+   */
+  publishCustomEventEvents(topicHostname: string, events: any[], options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse>;
+  /**
+   * @param topicHostname The host name of the topic, e.g. topic1.westus2-1.eventgrid.azure.net
+   * @param events An array of events to be published to Event Grid.
+   * @param callback The callback
+   */
+  publishCustomEventEvents(topicHostname: string, events: any[], callback: coreHttp.ServiceCallback<void>): void;
+  /**
+   * @param topicHostname The host name of the topic, e.g. topic1.westus2-1.eventgrid.azure.net
+   * @param events An array of events to be published to Event Grid.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  publishCustomEventEvents(topicHostname: string, events: any[], options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  publishCustomEventEvents(topicHostname: string, events: any[], options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
+    return this.sendOperationRequest(
+      {
+        topicHostname,
+        events,
+        options
+      },
+      publishCustomEventEventsOperationSpec,
+      callback);
+  }
 }
 
 // Operation Specifications
@@ -149,6 +181,37 @@ const publishCloudEventEventsOperationSpec: coreHttp.OperationSpec = {
     }
   },
   contentType: "application/cloudevents-batch+json; charset=utf-8",
+  responses: {
+    200: {},
+    default: {}
+  },
+  serializer
+};
+
+const publishCustomEventEventsOperationSpec: coreHttp.OperationSpec = {
+  httpMethod: "POST",
+  path: "api/events",
+  urlParameters: [
+    Parameters.topicHostname
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  requestBody: {
+    parameterPath: "events",
+    mapper: {
+      required: true,
+      serializedName: "events",
+      type: {
+        name: "Sequence",
+        element: {
+          type: {
+            name: "Object"
+          }
+        }
+      }
+    }
+  },
   responses: {
     200: {},
     default: {}

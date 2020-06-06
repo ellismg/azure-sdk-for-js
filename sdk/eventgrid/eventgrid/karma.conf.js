@@ -55,8 +55,12 @@ module.exports = function(config) {
 
     envPreprocessor: [
       "TEST_MODE",
-      "ENDPOINT",
-      "EVENT_GRID_API_KEY",
+      "EVENT_GRID_EVENT_GRID_SCHEMA_ENDPOINT",
+      "EVENT_GRID_EVENT_GRID_SCHEMA_API_KEY",
+      "EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT",
+      "EVENT_GRID_CUSTOM_SCHEMA_API_KEY",
+      "EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT",
+      "EVENT_GRID_CLOUD_EVENT_SCHEMA_API_KEY",
     ],
 
     // test results reporter to use

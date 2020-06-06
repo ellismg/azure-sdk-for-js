@@ -1,0 +1,28 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://matell-eg-topic-ce.westus2-1.eventgrid.azure.net/api/events",
+   "query": {
+    "api-version": "2018-01-01"
+   },
+   "requestBody": "[{\"id\":\"499048a1-3443-4de7-9385-4c8217c2cf3e\",\"source\":\"/earth/unitedstates/washington/kirkland/finnhill\",\"data\":{\"hello\":\"world\"},\"type\":\"matell.sample.handcraffted\",\"time\":\"2020-06-06T00:43:57.131Z\",\"specversion\":\"1.0\",\"datacontenttype\":\"application/json\"},{\"id\":\"1a76121f-ab33-4419-8e64-543c3b3c14ed\",\"source\":\"/earth/unitedstates/washington/kirkland/finnhill\",\"data\":{\"hello\":\"world\"},\"type\":\"matell.sample.handcraffted\",\"time\":\"2020-06-06T00:43:57.131Z\",\"specversion\":\"1.0\",\"datacontenttype\":\"application/json\"}]",
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "api-supported-versions": "2018-01-01",
+    "content-length": "0",
+    "date": "Sat, 06 Jun 2020 00:43:56 GMT",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "status": "200",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "a9ce8702-52bb-47d5-a5a4-79d55902750a"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "c83689b165161986f9c360a9bf9b3707"
+}

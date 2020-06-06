@@ -2,11 +2,11 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/",
+   "url": "https://matell-eg-custom-topic.westus2-1.eventgrid.azure.net/api/events",
    "query": {
     "api-version": "2018-01-01"
    },
-   "requestBody": "[{\"id\":\"dee12e55-32f4-4b13-b962-1ba72c5db489\",\"subject\":\"Single\",\"data\":{\"hello\":\"world\"},\"eventType\":\"MatEll.Events.Dummy\",\"eventTime\":\"2020-06-06T00:43:56.609Z\",\"dataVersion\":\"1.0\"}]",
+   "requestBody": "[{\"ver\":\"1.0\",\"typ\":\"MatEll.Events.Dummy\",\"sub\":\"Single\",\"payload\":{\"test\":\"data\"}}]",
    "status": 200,
    "response": "",
    "responseHeaders": {
@@ -16,7 +16,7 @@
     "server": "Microsoft-HTTPAPI/2.0",
     "status": "200",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "65d8f8c0-b4a2-4d20-97d4-04be762714e9"
+    "x-ms-request-id": "fd8da4be-51e3-4a64-a670-d1134aaf3c94"
    }
   }
  ],
@@ -24,5 +24,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "c083c90efd5b500351bb8fedd6ee6ae7"
+ "hash": "c31bacaa3053d4d4c51d262dcb7901fa"
 }

@@ -20,8 +20,8 @@ export interface RecordedClient {
 }
 
 const replaceableVariables: { [k: string]: string } = {
-  EVENT_GRID_API_KEY: "api_key",
-  ENDPOINT: "https://endpoint/"
+  EVENT_GRID_EVENT_GRID_SCHEMA_API_KEY: "api_key",
+  EVENT_GRID_EVENT_GRID_SCHEMA_ENDPOINT: "https://endpoint/"
 };
 
 export const testEnv = new Proxy(replaceableVariables, {
@@ -37,7 +37,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
       recording.replace(/"aeg-sas-key"\s?:\s?"[^"]*"/g, `"aeg-sas-key":"aeg-sas-key"`),
     (recording: string): string =>
       recording.replace(/"aeg-sas-token"\s?:\s?"[^"]*"/g, `"aeg-sas-token":"aeg-sas-token"`),
-    // If we put ENDPOINT in replaceableVariables above, it will not capture
+    // If we put EVENT_GRID_EVENT_GRID_SCHEMA_ENDPOINT in replaceableVariables above, it will not capture
     // the endpoint string used with nock, which will be expanded to
     // https://<endpoint>:443/ and therefore will not match, so we have to do
     // this instead.
@@ -51,12 +51,13 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 
 export function createRecordedClient(
   context: Context,
+  endpoint: string,
   credential: KeyCredential
 ): RecordedClient {
   const recorder = record(context, environmentSetup);
 
   return {
-    client: new EventGridClient(testEnv.ENDPOINT, credential),
+    client: new EventGridClient(endpoint, credential),
     recorder
   };
 }

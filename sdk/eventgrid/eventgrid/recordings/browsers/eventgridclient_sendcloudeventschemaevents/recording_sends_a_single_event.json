@@ -1,0 +1,28 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://matell-eg-topic-ce.westus2-1.eventgrid.azure.net/api/events",
+   "query": {
+    "api-version": "2018-01-01"
+   },
+   "requestBody": "[{\"id\":\"01956d35-288a-444c-b052-3460576e7866\",\"source\":\"/earth/unitedstates/washington/kirkland/finnhill\",\"data\":{\"hello\":\"world\"},\"type\":\"matell.sample.handcraffted\",\"time\":\"2020-06-06T00:43:57.003Z\",\"specversion\":\"1.0\",\"datacontenttype\":\"application/json\"}]",
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "api-supported-versions": "2018-01-01",
+    "content-length": "0",
+    "date": "Sat, 06 Jun 2020 00:43:56 GMT",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "status": "200",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "1e40368f-087c-4c7e-9178-9b01f5508893"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "53f9b4d0ff744c5757a63b1f6107aa2d"
+}
