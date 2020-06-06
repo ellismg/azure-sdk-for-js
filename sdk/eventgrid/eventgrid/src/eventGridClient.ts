@@ -115,6 +115,7 @@ export class EventGridClient {
      * @param message One or more events to publish
      */
     sendCustomSchemaEvents(message: {[key: string]: any} | {[key: string]: any}[]): Promise<RestResponse> {
+      // TODO(matell): This is not likely correct. If a single argument is provided, but it's an array, what do we do?
       const events = !Array.isArray(message) ? [message] : message;
 
       return this.client.publishCustomEventEvents(this.endpointUrl, events);
