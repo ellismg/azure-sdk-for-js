@@ -129,7 +129,7 @@ export class EventGridClient {
      * @param key They shared key to use to create the signature.
      * @param apiVersion The version of the EventGrid API.
      */
-    static generateSharedAccessSignature(endpointUrl: string, expiresOnUtc: Date, key: string, apiVersion = DEFAULT_SERVICE_API_VERSION) {
+    static generateSharedAccessSignature(endpointUrl: string, expiresOnUtc: Date, key: string, apiVersion = DEFAULT_SERVICE_API_VERSION): string {
       const expiresOnString = dateToServiceTimeString(expiresOnUtc);
       const unsignedSas = `r=${encodeURIComponent(`${endpointUrl}?apiVersion=${apiVersion}`)}&e=${encodeURIComponent(expiresOnString)}`;
       const digest = createHmac("sha256", Buffer.from(key, 'base64')).update(unsignedSas).digest().toString('base64');
