@@ -62,6 +62,12 @@ export interface EventGridMessage {
     type: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "EventGridEvent" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "StorageBlobCreatedEventData" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export const isStorageBlobCreatedEvent: (o: any) => o is EventGridEvent<StorageBlobCreatedEventData>;
+
 // @public
 export class SharedAccessSignatureCredential extends AzureKeyCredential {
     constructor(signature: string);

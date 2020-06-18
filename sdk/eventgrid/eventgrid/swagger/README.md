@@ -29,6 +29,23 @@ input-file:
 - https://raw.githubusercontent.com/ellismg/azure-rest-api-specs/ellismg/add-cloud-event-publish-to-event-grid/specification/eventgrid/data-plane/Microsoft.Cache/stable/2018-01-01/RedisCache.json
 - https://raw.githubusercontent.com/ellismg/azure-rest-api-specs/ellismg/add-cloud-event-publish-to-event-grid/specification/eventgrid/data-plane/Microsoft.Web/stable/2018-01-01/Web.json
 use-extension:
-  "@microsoft.azure/autorest.typescript": "5.0.1"
+  "@autorest/typescript": "6.0.0-dev.20200505.1"
 ```
 
+## Rename Types
+
+### Use the "EventData" suffix on the Azure Resource Manager Event types, instead of just "Data"
+
+```yaml 
+directive:
+  - from: swagger-document
+    where: $.definitions
+    transform: >
+      ["Write", "Delete", "Action"].forEach(action => {
+        ["Success", "Failure", "Cancel"].forEach(status => {
+          if ($[`Resource${action}${status}Data`]) {
+            $[`Resource${action}${status}Data`]["x-ms-client-name"] = `Resource${action}${status}EventData`;
+          }
+        });
+      });
+```

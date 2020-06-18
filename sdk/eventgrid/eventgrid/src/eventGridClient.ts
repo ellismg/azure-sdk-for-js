@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { KeyCredential } from "@azure/core-auth";
-import { PipelineOptions, createPipelineFromOptions, RestResponse } from "@azure/core-http";
+import { PipelineOptions, createPipelineFromOptions, RestResponse, ServiceClientCredentials } from "@azure/core-http";
 
 import { createHmac } from "crypto";
 import { v4 as uuidv4 } from "uuid";
@@ -56,7 +56,18 @@ export class EventGridClient {
         const authPolicy = createEventGridAzureKeyCredentialPolicy(credential);
         const pipeline = createPipelineFromOptions(options, authPolicy);
      
-        this.client = new GeneratedClient(DEFAULT_SERVICE_API_VERSION, pipeline);    
+        // The contract with the generated client requires a credential, even though it is never used
+        // when a pipeline is provided. Until that contract can be changed, this dummy credential will
+        // throw an error if the client ever attempts to use it.
+        const dummyCredential: ServiceClientCredentials = {
+          signRequest() {
+            throw new Error(
+              "Internal error: Attempted to use credential from service client, but a pipeline was provided."
+            );
+          }
+        };
+
+        this.client = new GeneratedClient(dummyCredential, pipeline);    
     }
 
     /**
@@ -81,7 +92,7 @@ export class EventGridClient {
           };
         });
 
-      return this.client.publishEvents(this.endpointUrl, events);
+      return this.client.publishEvents(events, this.endpointUrl);
     }
 
     /**
