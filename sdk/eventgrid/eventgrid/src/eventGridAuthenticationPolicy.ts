@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KeyCredential } from "@azure/core-auth";
+import { KeyCredential, SasCredential } from "@azure/core-auth";
 import {
   RequestPolicyFactory,
   RequestPolicy,
@@ -11,7 +11,6 @@ import {
   RequestPolicyOptionsLike
 } from "@azure/core-http";
 
-import { SignatureCredential } from "./sharedAccessSignitureCredential";
 import { isKeyCredentialLike } from "./util";
 
 /**
@@ -29,7 +28,7 @@ const SAS_TOKEN_HEADER_NAME = "aeg-sas-token";
  * using an `AzureKeyCredential` for Event Grid
  */
 export function createEventGridCredentialPolicy(
-  credential: KeyCredential | SignatureCredential
+  credential: KeyCredential | SasCredential
 ): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike) => {
@@ -43,12 +42,12 @@ export function createEventGridCredentialPolicy(
  * using the appropriate header for Event Grid
  */
 class EventGridAzureKeyCredentialPolicy extends BaseRequestPolicy {
-  private credential: KeyCredential | SignatureCredential;
+  private credential: KeyCredential | SasCredential;
 
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptionsLike,
-    credential: KeyCredential | SignatureCredential
+    credential: KeyCredential | SasCredential
   ) {
     super(nextPolicy, options);
     this.credential = credential;
@@ -62,7 +61,7 @@ class EventGridAzureKeyCredentialPolicy extends BaseRequestPolicy {
     if (isKeyCredentialLike(this.credential)) {
       webResource.headers.set(API_KEY_HEADER_NAME, this.credential.key);
     } else {
-      webResource.headers.set(SAS_TOKEN_HEADER_NAME, this.credential.signature());
+      webResource.headers.set(SAS_TOKEN_HEADER_NAME, this.credential.signature);
     }
 
     return this._nextPolicy.sendRequest(webResource);

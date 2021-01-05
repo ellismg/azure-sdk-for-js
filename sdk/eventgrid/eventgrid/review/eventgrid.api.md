@@ -5,10 +5,12 @@
 ```ts
 
 import { AzureKeyCredential } from '@azure/core-auth';
+import { AzureSasCredential } from '@azure/core-auth';
 import { HttpResponse } from '@azure/core-http';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
+import { SasCredential } from '@azure/core-auth';
 
 // @public
 export interface ACSChatEventBase {
@@ -154,6 +156,8 @@ export interface AppServicePlanEventTypeDetail {
 export type AsyncStatus = "Started" | "Completed" | "Failed";
 
 export { AzureKeyCredential }
+
+export { AzureSasCredential }
 
 // @public
 export interface CloudEvent<T> {
@@ -342,7 +346,7 @@ export interface EventGridEvent<T> {
 
 // @public
 export class EventGridPublisherClient {
-    constructor(endpointUrl: string, credential: KeyCredential | SignatureCredential, options?: EventGridPublisherClientOptions);
+    constructor(endpointUrl: string, credential: KeyCredential | SasCredential, options?: EventGridPublisherClientOptions);
     readonly apiVersion: string;
     readonly endpointUrl: string;
     sendCloudEvents(events: SendCloudEventInput<any>[], options?: SendCloudEventsOptions): Promise<SendEventsResponse>;
@@ -353,13 +357,6 @@ export class EventGridPublisherClient {
 
 // @public
 export type EventGridPublisherClientOptions = PipelineOptions;
-
-// @public
-export class EventGridSharedAccessSignatureCredential implements SignatureCredential {
-    constructor(signature: string);
-    signature(): string;
-    update(newSignature: string): void;
-}
 
 // @public
 export interface EventHubCaptureFileCreatedEventData {
@@ -988,11 +985,6 @@ export interface ServiceBusDeadletterMessagesAvailableWithNoListenersEventData {
     requestUri?: string;
     subscriptionName?: string;
     topicName?: string;
-}
-
-// @public
-export interface SignatureCredential {
-    signature(): string;
 }
 
 // @public
