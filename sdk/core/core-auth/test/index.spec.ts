@@ -4,6 +4,7 @@
 import assert from "assert";
 
 import { AzureKeyCredential } from "../src/azureKeyCredential";
+import { AzureSasCredential } from "../src/azureSasCredential";
 import { isTokenCredential } from "../src/tokenCredential";
 
 describe("AzureKeyCredential", () => {
@@ -26,6 +27,28 @@ describe("AzureKeyCredential", () => {
     assert.equal(credential.key, "credential2");
   });
 });
+
+describe("AzureSasCredential", () => {
+  it("credential constructor throws on invalid signature", () => {
+    assert.throws(() => {
+      void new AzureSasCredential("");
+    }, /key must be a non-empty string/);
+    assert.throws(() => {
+      void new AzureSasCredential((null as unknown) as string);
+    }, /key must be a non-empty string/);
+    assert.throws(() => {
+      void new AzureSasCredential((undefined as unknown) as string);
+    }, /key must be a non-empty string/);
+  });
+
+  it("credential correctly updates", () => {
+    const credential = new AzureSasCredential("credential1");
+    assert.equal(credential.signature, "credential1");
+    credential.update("credential2");
+    assert.equal(credential.signature, "credential2");
+  });
+});
+
 
 describe("isTokenCredential", function() {
   it("should return true for an object that resembles a TokenCredential", () => {

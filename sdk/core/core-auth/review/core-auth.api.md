@@ -21,6 +21,13 @@ export class AzureKeyCredential implements KeyCredential {
 }
 
 // @public
+export class AzureSasCredential implements SasCredential {
+    constructor(signature: string);
+    get signature(): string;
+    update(newSignature: string): void;
+}
+
+// @public
 export interface GetTokenOptions {
     abortSignal?: AbortSignalLike;
     requestOptions?: {
@@ -37,6 +44,11 @@ export function isTokenCredential(credential: unknown): credential is TokenCrede
 // @public
 export interface KeyCredential {
     readonly key: string;
+}
+
+// @public
+export interface SasCredential {
+    readonly signature: string;
 }
 
 // @public
